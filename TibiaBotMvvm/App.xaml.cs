@@ -5,9 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using TibiaBot.Properties;
 
-namespace TibiaBot
+namespace TibiaBotMvvm
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -19,9 +18,5 @@ namespace TibiaBot
             InitializeComponent();
         }
 
-        void Application_Exit(object sender, EventArgs e)
-        {
-            Settings.Default.Save();
-        }
     }
 }

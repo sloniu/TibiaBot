@@ -5,8 +5,154 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TibiaBot"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        x:Name="Window"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:controls="clr-namespace:TibiaBot.Controls"
+        Title="MainWindow" SizeToContent="Height" Width="350" MinWidth="350" MinHeight="401">
+    <StackPanel>
+        <StackPanel Margin="3">
+            <Button Content="Load Processes" Click="loadProcessButtonBase_OnClick" />
+            <ComboBox x:Name="processCombo" DisplayMemberPath="WindowTitle" SelectedValue="Process" SelectedIndex="0"
+                      SelectionChanged="ProcessCombo_OnSelectionChanged" />
+        </StackPanel>
+        <TabControl>
+            <TabItem Header="Mana Sitting">
+                <StackPanel>
+                    <StackPanel Margin="3" Visibility="Collapsed">
+                        <ComboBox x:Name="classCombo" DisplayMemberPath="Key" SelectedValuePath="Value"
+                                  SelectedIndex="1">
+                        </ComboBox>
+                        <ComboBox x:Name="itemCombo" DisplayMemberPath="Key" SelectedValuePath="Value"
+                                  SelectedIndex="0">
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Margin="3">
+                        <TextBlock Text="Na ilu many rzucać spella"></TextBlock>
+                        <TextBox x:Name="mana1" Text="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingSpellMana}" />
+                        <ComboBox x:Name="keys1" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedIndex="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingSpellKey}"></ComboBox>
+                        <CheckBox x:Name="f5button" Content="Enabled" Checked="F5_OnClick" Unchecked="F5stopbutton_OnClick"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Margin="3">
+                        <TextBlock Text="Co ile sekund"></TextBlock>
+                        <TextBox x:Name="mana2" Text="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingFoodTime}" />
+                        <ComboBox x:Name="keys2" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedIndex="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingFoodKey}"></ComboBox>
+                        <CheckBox x:Name="f6button" Content="Enabled" Checked="F6_OnClick" Unchecked="F6stopButtonBase_OnClick"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Margin="3">
+                        <TextBlock Text="Skiller"></TextBlock>
+                        <TextBox x:Name="spacebox" Text="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingSkillTime}"></TextBox>
+                        <ComboBox x:Name="keys3" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedIndex="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingSkillKey}"></ComboBox>
+                        <CheckBox x:Name="spacebutton" Content="Enabled" Checked="SpaceButtonBase_OnClick" Unchecked="StopSpaceButtonBase_OnClick"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Margin="3">
+                        <TextBlock Text="Logout after seconds (set logout button to f12)"></TextBlock>
+                        <TextBox x:Name="logout" Text="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingLogoutTime}"></TextBox>
+                        <CheckBox x:Name="logoutButton" Content="Enabled" Checked="LogoutButton_OnClick" Unchecked="Logoutstopbutton_OnClick"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Margin="3" Visibility="Collapsed">
+                        <TextBox x:Name="logBox" IsReadOnly="True" Height="100" VerticalScrollBarVisibility="Auto" />
+                    </StackPanel>
+                    <StackPanel Visibility="Visible">
+                        <TextBlock x:Name="hpTextblock"></TextBlock>
+                        <TextBlock x:Name="mpTextblock"></TextBlock>
+                        <TextBlock x:Name="soulsTextblock"></TextBlock>
+                        <Button Content="Refresh" Click="RefreshHealthButtonBase_OnClick"></Button>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Healing">
+                <DockPanel MaxHeight="500">
+                    <Button Content="Add" Click="AddHealButtonBase_OnClick" DockPanel.Dock="Top"></Button>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="icHeal" >
+
+
+                        </StackPanel>
+                        <!--                    <StackPanel >-->
+                        <!--                    </StackPanel>-->
+                    </ScrollViewer>
+                </DockPanel>
+                
+            </TabItem>
+            <TabItem Header="Alarm">
+                     <StackPanel>
+                    <TextBox x:Name="AlertRes" Text="{Binding Source={StaticResource Settings}, Path=Default.AlarmAmount}"></TextBox>
+                        <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="AlarmFlatRadio"  Content="Flat amount" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsFlat}"></RadioButton>
+                        <RadioButton x:Name="AlarmProcRadio"  Content="Percent" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsPercent}"></RadioButton>
+                        </StackPanel>
+                    <RadioButton x:Name="AlertHealth" Content="Health" GroupName="alert" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsHealth}"/>
+                    <RadioButton x:Name="AlertMana" Content="Mana" GroupName="alert" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsMana}"/>
+                    <RadioButton x:Name="AlertSouls" Content="Souls" GroupName="alert" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsSouls}"/>
+                        <CheckBox Content="Enabled" Checked="AlertToggleButton_OnChecked" Unchecked="AlertToggleButton_OnUnchecked"></CheckBox>
+                    </StackPanel>
+                
+            </TabItem>
+        </TabControl>
+    </StackPanel>
+
 </Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

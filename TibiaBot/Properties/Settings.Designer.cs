@@ -8,22 +8,174 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TibiaBot.Properties
-{
-
-
+namespace TibiaBot.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("99")]
+        public string ManaSittingSpellMana {
+            get {
+                return ((string)(this["ManaSittingSpellMana"]));
+            }
+            set {
+                this["ManaSittingSpellMana"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int ManaSittingSpellKey {
+            get {
+                return ((int)(this["ManaSittingSpellKey"]));
+            }
+            set {
+                this["ManaSittingSpellKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public string ManaSittingFoodTime {
+            get {
+                return ((string)(this["ManaSittingFoodTime"]));
+            }
+            set {
+                this["ManaSittingFoodTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int ManaSittingFoodKey {
+            get {
+                return ((int)(this["ManaSittingFoodKey"]));
+            }
+            set {
+                this["ManaSittingFoodKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public string ManaSittingSkillTime {
+            get {
+                return ((string)(this["ManaSittingSkillTime"]));
+            }
+            set {
+                this["ManaSittingSkillTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public string ManaSittingSkillKey {
+            get {
+                return ((string)(this["ManaSittingSkillKey"]));
+            }
+            set {
+                this["ManaSittingSkillKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        public string ManaSittingLogoutTime {
+            get {
+                return ((string)(this["ManaSittingLogoutTime"]));
+            }
+            set {
+                this["ManaSittingLogoutTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public string AlarmAmount {
+            get {
+                return ((string)(this["AlarmAmount"]));
+            }
+            set {
+                this["AlarmAmount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AlarmIsPercent {
+            get {
+                return ((bool)(this["AlarmIsPercent"]));
+            }
+            set {
+                this["AlarmIsPercent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlarmIsFlat {
+            get {
+                return ((bool)(this["AlarmIsFlat"]));
+            }
+            set {
+                this["AlarmIsFlat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AlarmIsHealth {
+            get {
+                return ((bool)(this["AlarmIsHealth"]));
+            }
+            set {
+                this["AlarmIsHealth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlarmIsMana {
+            get {
+                return ((bool)(this["AlarmIsMana"]));
+            }
+            set {
+                this["AlarmIsMana"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlarmIsSouls {
+            get {
+                return ((bool)(this["AlarmIsSouls"]));
+            }
+            set {
+                this["AlarmIsSouls"] = value;
             }
         }
     }

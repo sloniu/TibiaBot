@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="TibiaBot.Controls.HealControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TibiaBot.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Margin="3">
+        <TextBlock Text="Health from ... to"></TextBlock>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="Healresfrom" Grid.Column="0" Margin="0,0,2,0"></TextBox>
+            <TextBox x:Name="Healresto" Grid.Column="1" Margin="2,0,0,0"></TextBox>
+        </Grid>
+
+        <TextBlock Text="Required mana"></TextBlock>
+        <TextBox x:Name="Healreqmana"></TextBox>
+
+        <StackPanel Orientation="Horizontal">
+            <RadioButton x:Name="HealthRadio"  Content="Health"></RadioButton>
+            <RadioButton x:Name="ManaRadio"  Content="Mana"></RadioButton>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <RadioButton x:Name="FlatRadio"  Content="Flat amount"></RadioButton>
+            <RadioButton x:Name="ProcRadio"  Content="Percent"></RadioButton>
+        </StackPanel>
+        <ComboBox x:Name="Keysres" DisplayMemberPath="Key" SelectedValuePath="Value"></ComboBox>
+        <Grid Margin="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <CheckBox Content="Enabled" Checked="HealResToggleButton_OnChecked" Unchecked="HealResToggleButton_OnUnchecked" Grid.Column="0"/>
+            <Button x:Name="RemoveButton" Content="Remove" Click="RemoveButtonBase_OnClick" Grid.Column="1"></Button>
+        </Grid>
+    </StackPanel>
+</UserControl>
