@@ -98,25 +98,37 @@ namespace TibiaBot.Controls
 
         #endregion
 
-        private readonly Healer _healer = new Healer();
-        public Process Process { get; set; }
+        //public Healer Healer { get; set; }
+        //public Process Process { get; set; }
+        public List<Healer> Healers { get; set; }
+        //public List<HealControl> HealControls { get; set; }
+        public Healer.ResourceType ResourceType { get; set; }
+        public int HealResFrom { get; set; }
+        public int HealResTo { get; set; }
+        public int RequiredMana { get; set; }
+        public int Key { get; set; }
+        public bool IsPercent { get; set; }
+        public int Priority { get; set; }
 
 
         public HealControl()
         {
             InitializeComponent();
             Keysres.ItemsSource = _keys;
+            //Healers = new List<Healer>();
         }
 
         public HealControl(Process proc) : this()
         {
             InitializeComponent();
 
-            Process = proc;
-            _healer.Process = Process;
+            //Process = proc;
+            //Healer.Process = Process;
         }
 
-        private void HealResToggleButton_OnChecked(object sender, RoutedEventArgs e)
+
+        //private void HealResToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        public void EnableHeals()
         {
             RemoveButton.IsEnabled = false;
             Healer.ResourceType resource;
@@ -133,25 +145,43 @@ namespace TibiaBot.Controls
             if (HealthRadio.IsChecked == true)
             {
                 resource = Healer.ResourceType.Health;
-                _healer.Process = Process;
-                _healer.IsEnabled = true;
-                var healvalue = new Random().Next(int.Parse(Healresfrom.Text), int.Parse(Healresto.Text));
-                _healer.Heal(resource, int.Parse(Healresfrom.Text), int.Parse(Healresto.Text), int.Parse(Healreqmana.Text), int.Parse(Keysres.SelectedValue.ToString()), isPercent);
+                //Healer.Process = Process;
+                //Healer.IsEnabled = true;
+
+                ResourceType = resource;
+                HealResFrom = int.Parse(Healresfrom.Text);
+                HealResTo = int.Parse(Healresto.Text);
+                RequiredMana = int.Parse(Healreqmana.Text);
+                Key = int.Parse(Keysres.SelectedValue.ToString());
+                IsPercent = isPercent;
+                Priority = (int) slValue.Value;
+
+                //Healer.Heal(resource, int.Parse(Healresfrom.Text), int.Parse(Healresto.Text), int.Parse(Healreqmana.Text), int.Parse(Keysres.SelectedValue.ToString()), isPercent, (int)slValue.Value);
             }
             else if (ManaRadio.IsChecked == true)
             {
                 resource = Healer.ResourceType.Mana;
-                _healer.Process = Process;
-                _healer.IsEnabled = true;
-                var healvalue = new Random().Next(int.Parse(Healresfrom.Text), int.Parse(Healresto.Text));
-                _healer.Heal(resource, int.Parse(Healresfrom.Text), int.Parse(Healresto.Text), int.Parse(Keysres.SelectedValue.ToString()), isPercent);
+                //Healer.Process = Process;
+                //Healer.IsEnabled = true;
+
+                //Healer.Process = Process;
+                //Healer.IsEnabled = true;
+                ResourceType = resource;
+                HealResFrom = int.Parse(Healresfrom.Text);
+                HealResTo = int.Parse(Healresto.Text);
+                Key = int.Parse(Keysres.SelectedValue.ToString());
+                IsPercent = isPercent;
+                Priority = (int)slValue.Value;
+
+                //Healer.Heal(resource, int.Parse(Healresfrom.Text), int.Parse(Healresto.Text), int.Parse(Keysres.SelectedValue.ToString()), isPercent, (int)slValue.Value);
             }
             
         }
 
-        private void HealResToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
+        //private void HealResToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
+        public void DisableHeals()
         {
-            _healer.IsEnabled = false;
+            //Healer.IsEnabled = false;
             RemoveButton.IsEnabled = true;
         }
 

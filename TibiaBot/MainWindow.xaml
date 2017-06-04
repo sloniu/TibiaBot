@@ -62,15 +62,17 @@
             </TabItem>
             <TabItem Header="Healing">
                 <DockPanel MaxHeight="500">
-                    <Button Content="Add" Click="AddHealButtonBase_OnClick" DockPanel.Dock="Top"></Button>
+                    <StackPanel DockPanel.Dock="Top">
+                        <Button Content="Add" Click="AddHealButtonBase_OnClick" DockPanel.Dock="Top"></Button>
+                        <CheckBox Content="Enabled" Checked="HealersToggleButton_OnChecked" Unchecked="HealersToggleButton_OnUnchecked" DockPanel.Dock="Bottom"></CheckBox>
+                    </StackPanel>
+                    
 
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel x:Name="icHeal" >
 
 
                         </StackPanel>
-                        <!--                    <StackPanel >-->
-                        <!--                    </StackPanel>-->
                     </ScrollViewer>
                 </DockPanel>
                 

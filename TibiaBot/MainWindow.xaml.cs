@@ -38,17 +38,10 @@ namespace TibiaBot
             keys1.ItemsSource = _keys;
             keys2.ItemsSource = _keys;
             keys3.ItemsSource = _keys;
-            //keysres1.ItemsSource = _keys;
             classCombo.ItemsSource = Classes;
             itemCombo.ItemsSource = _items;
-
-
-
-
             loadProcessButtonBase_OnClick(new object(), new AccessKeyPressedEventArgs());
-
-
-
+            HealControls = new List<HealControl>();
         }
 
 
@@ -60,7 +53,9 @@ namespace TibiaBot
         private KeySender _ksSpace;
         private KeySender _ksLogout;
         private Alarm _alarm;
-        private List<HealControl> heals = new List<HealControl>();
+        //private List<HealControl> heals = new List<HealControl>();
+
+        public List<HealControl> HealControls { get; set; }
 
         #region class
 
@@ -311,12 +306,12 @@ namespace TibiaBot
         {
             try
             {
-                foreach (var heal in heals)
-                {
-                    heal.Process = ((TibiaProc)processCombo.SelectedItem).Process;
-
-
-                }
+//                foreach (var heal in heals)
+//                {
+//                    heal.Process = ((TibiaProc)processCombo.SelectedItem).Process;
+//
+//
+//                }
                 //Heal1.Process = ((TibiaProc)processCombo.SelectedItem).Process;
             }
             catch (Exception exception)
@@ -330,14 +325,24 @@ namespace TibiaBot
                 Window.Title = ((TibiaProc)processCombo.SelectedItem).WindowTitle.Replace("Tibia", "Bot");
                 MemoryReader.Initialize();
                 MemoryReader.OpenProcess(((TibiaProc)processCombo.SelectedItem).Process);
-                foreach (var heal in heals)
-                {
-                    //heal = new HealControl(((TibiaProc)processCombo.SelectedItem).Process);
-                }
+//                foreach (var heal in heals)
+//                {
+//                    //heal = new HealControl(((TibiaProc)processCombo.SelectedItem).Process);
+//                }
                 //Heal1 = new HealControl(((TibiaProc)processCombo.SelectedItem).Process);
             }
             catch (Exception ex)
             {
+                var alert = new Alarm();
+                alert.IsEnabled = true;
+                alert.Play();
+
+                MessageBoxResult result = MessageBox.Show($"{ex}", "Something happened", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                if (result == MessageBoxResult.OK)
+                {
+                    alert.Stop();
+                    alert.IsEnabled = false;
+                }
                 Console.WriteLine(ex);
                 //throw;
             }
@@ -392,8 +397,34 @@ namespace TibiaBot
         private void AddHealButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             var heal = new HealControl();
-            heal.Process = ((TibiaProc)processCombo.SelectedItem).Process;
+            HealControls.Add(heal);
+
+            //heal.Process = ((TibiaProc)processCombo.SelectedItem).Process;
             icHeal.Children.Add(heal);
+        }
+
+        private void HealersToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            //var healers = HealControls.Select(healControl => healControl.Healer).ToList();
+            foreach (var healControl in HealControls)
+            {
+                //healControl.Healers = healers;
+                healControl.EnableHeals();
+
+            }
+
+            var healer = new Healer();
+            healer.Process = ((TibiaProc) processCombo.SelectedItem).Process;
+            healer.HealControls = HealControls;
+            healer.HealPrio();
+        }
+
+        private void HealersToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var healControl in HealControls)
+            {
+                healControl.DisableHeals();
+            }
         }
     }
 }
