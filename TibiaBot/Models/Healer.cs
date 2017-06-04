@@ -41,7 +41,7 @@ namespace TibiaBot.Models
                             {
                                 health = MemoryReader.health;
                             }
-                            if (health < new Random().Next(resourceMax, resourceMax))
+                            if (health < new Random().Next(resourceMin, resourceMax))
                             {
                                 await ks.SendKey(Process, key);
                             }
@@ -97,7 +97,7 @@ namespace TibiaBot.Models
                         {
                             health = MemoryReader.health;
                         }
-                        if (health < new Random().Next(resourceMax, resourceMax) && requiredMana <= MemoryReader.mana)
+                        if (health < new Random().Next(resourceMin, resourceMax) && requiredMana <= MemoryReader.mana)
                         {
                             await ks.SendKey(Process, key);
                         }
