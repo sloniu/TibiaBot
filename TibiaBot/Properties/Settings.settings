@@ -41,5 +41,8 @@
     <Setting Name="AlarmIsSouls" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ManaSittingLogoutKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">11</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

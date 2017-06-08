@@ -38,12 +38,6 @@ namespace TibiaBot.Models
         /// <returns></returns>
         public async Task SendKey(Process proc, int mana, double prof, double item, int key, TextBox textBox, int timesPressed)
         {
-//            var proc = Process.GetProcessesByName("client").FirstOrDefault();
-//            if (proc == null)
-//            {
-//                return;
-//            }
-
             while (true)
             {
                 if (Stop)
@@ -68,13 +62,6 @@ namespace TibiaBot.Models
                     
                 _totalrnd += rnd;
                 var delay = mana / (prof + item) * 1000 + rnd;
-
-//                if (_totalrnd > 10000)
-//                {
-//                    delay -= _totalrnd;
-//                    textBox?.AppendText($"\n{DateTime.Now:hh:mm:ss} - Delay of {_totalrnd} removed.");
-//                    _totalrnd = 0;
-//                }
                 textBox?.AppendText($"\n{DateTime.Now:hh:mm:ss} - Pressed {key} with: {delay} ms.");
                 textBox?.ScrollToEnd();
                 await Task.Delay((int)delay);
@@ -92,7 +79,7 @@ namespace TibiaBot.Models
             PostMessage(proc.MainWindowHandle, WM_KEYUP, key, 0);
         }
 
-        public async Task SendKeyMultiple(Process proc, int mana, double prof, double item, int[] key, TextBox textBox)
+        public async Task SendKeyMultiple(Process proc, int mana, double prof, double item, int key, TextBox textBox)
         {
 //            var proc = Process.GetProcessesByName("client").FirstOrDefault();
 //            if (proc == null)
@@ -116,13 +103,10 @@ namespace TibiaBot.Models
 
                 await Task.Delay((int)delay);
 
-                foreach (var t in key)
-                {
-                    PostMessage(proc.MainWindowHandle, WM_KEYDOWN, t, 0);
-                    await Task.Delay(250);
-                    PostMessage(proc.MainWindowHandle, WM_KEYUP, t, 0);
-                    await Task.Delay(250);
-                }
+                PostMessage(proc.MainWindowHandle, WM_KEYDOWN, key, 0);
+                await Task.Delay(250);
+                PostMessage(proc.MainWindowHandle, WM_KEYUP, key, 0);
+                await Task.Delay(250);
 
                 if (_totalrnd > 10000)
                 {

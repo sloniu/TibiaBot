@@ -4,9 +4,89 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TibiaBotMvvm"
+        xmlns:views="clr-namespace:TibiaBotMvvm.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="350" Width="525"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <StackPanel>
+        <StackPanel>
+            <Button Content="Load Processes" Command="{Binding LoadProcessesCommand}"></Button>
+            <ComboBox ItemsSource="{Binding TibiaProcs}" DisplayMemberPath="WindowTitle" SelectedValue="Process" SelectedItem="{Binding SelectedTibiaProc}" SelectedIndex="0"></ComboBox>
+        </StackPanel>
+        <TabControl>
+            <TabItem DataContext="{Binding Views[0]}" x:Name="Tab1" Header="{Binding Header}">
+                <views:ManaSitterView></views:ManaSitterView>
+            </TabItem>
+            <TabItem DataContext="{Binding Views[1]}" x:Name="Tab2" Header="{Binding Header}">
+                <views:HealingView></views:HealingView>
+            </TabItem>
+            <TabItem DataContext="{Binding Views[2]}" x:Name="Tab3" Header="{Binding Header}">
+                <views:AlarmView></views:AlarmView>
+            </TabItem>
+        </TabControl>
+    </StackPanel>
 </Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="TibiaBotMvvm.Views.AlarmView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TibiaBotMvvm.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding AlarmView, Source={StaticResource Locator}}">
+    
+    <StackPanel>
+        <TextBlock Text="Resource to alarm"></TextBlock>
+        <TextBox Text="{Binding AlarmResource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Orientation="Horizontal">
+            <RadioButton x:Name="AlarmFlatRadio"  Content="Flat amount" IsChecked="{Binding AlarmFlatIsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></RadioButton>
+            <RadioButton x:Name="AlarmProcRadio"  Content="Percent" IsChecked="{Binding AlarmProcIsChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></RadioButton>
+        </StackPanel>
+        <StackPanel>
+            <RadioButton Content="Health" GroupName="alert" IsChecked="{Binding AlarmHealthIsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <RadioButton Content="Mana" GroupName="alert" IsChecked="{Binding AlarmManaIsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <RadioButton Content="Souls" GroupName="alert" IsChecked="{Binding AlarmSoulsIsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Content="Enabled" IsChecked="{Binding AlarmIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding AlarmCommand}"></CheckBox>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

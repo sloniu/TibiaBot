@@ -178,5 +178,17 @@ namespace TibiaBot.Properties {
                 this["AlarmIsSouls"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        public string ManaSittingLogoutKey {
+            get {
+                return ((string)(this["ManaSittingLogoutKey"]));
+            }
+            set {
+                this["ManaSittingLogoutKey"] = value;
+            }
+        }
     }
 }

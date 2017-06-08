@@ -56,9 +56,6 @@ namespace TibiaBot.Models
                                 {
                                     await ks.SendKey(Process, sortedHealControl.Key);
                                     await Task.Delay(200);
-                                    Console.WriteLine(
-                                        $@"Healing in range of {sortedHealControl.HealResFrom} - {sortedHealControl
-                                            .HealResTo} for {sortedHealControl.RequiredMana} mana.");
                                     exitloop = true;
                                 }
                                 else
@@ -81,14 +78,11 @@ namespace TibiaBot.Models
                                 {
                                     await ks.SendKey(Process, sortedHealControl.Key);
                                     await Task.Delay(200);
-                                    Console.WriteLine($@"Manadrinking in range of {sortedHealControl.HealResFrom} - {sortedHealControl.HealResTo}");
-
                                     exitloop = true;
                                 }
                                 else
                                 {
                                     exitloop = false;
-
                                 }
                                 break;
                         }

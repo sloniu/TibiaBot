@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TibiaBot.Models;
 using TibiaBot.Properties;
 
 namespace TibiaBot

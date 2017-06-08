@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="TibiaBotMvvm.Views.ManaSitterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TibiaBotMvvm.Views"
+             xmlns:viewModels="clr-namespace:TibiaBotMvvm.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding ManaSitterView, Source={StaticResource Locator}}">
+    
+    <StackPanel>
+        <StackPanel>
+            <TextBlock Text="Cast spell on mana"></TextBlock>
+            <TextBox Text="{Binding RequiredMana, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <ComboBox ItemsSource="{Binding Keys}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding ManaburnKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ManaburnKeyIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+            <CheckBox Content="Enabled" IsChecked="{Binding IsManaburnEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ManaburnCommand}"></CheckBox>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Text="Eat food each seconds"></TextBlock>
+            <TextBox Text="{Binding EatingTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <ComboBox ItemsSource="{Binding Keys}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding EatingKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding EatingKeyIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+            <CheckBox Content="Enabled" IsChecked="{Binding IsEatingEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding EatingCommand}"></CheckBox>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Text="Skilling"></TextBlock>
+            <TextBox Text="{Binding SkillingTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <ComboBox ItemsSource="{Binding Keys}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding SkillingKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SkillingKeyIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+            <CheckBox Content="Enabled" IsChecked="{Binding IsSkillingEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding SkillingCommand}"></CheckBox>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Text="Logout (bind logout to selected key)"></TextBlock>
+            <TextBox Text="{Binding LogoutTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <ComboBox ItemsSource="{Binding Keys}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding LogoutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding LogoutKeyIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton IsChecked="{Binding IsLogoutTimeChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Time (seconds)" Grid.Column="0"></RadioButton>
+                <RadioButton IsChecked="{Binding IsLogoutSoulsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Souls" Grid.Column="1"></RadioButton>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton IsChecked="{Binding IsLogoutNothingChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Do nothing" Grid.Column="0"></RadioButton>
+                <RadioButton IsChecked="{Binding IsLogoutShutdownChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Shut down PC" Grid.Column="1"></RadioButton>
+                <RadioButton IsChecked="{Binding IsLogoutHibernateChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Hibernate PC" Grid.Column="2"></RadioButton>
+            </Grid>
+            <CheckBox Content="Enabled" IsChecked="{Binding IsLogoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>
+

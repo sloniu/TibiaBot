@@ -187,8 +187,67 @@ namespace TibiaBot.Controls
 
         private void RemoveButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                var settings = SettingsManager.Instance;
+                var hs = new HealerSetting(this);
+                settings.HealerSettings.Remove(hs);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                //throw;
+            }
+            
+
             Panel parentPanel = (Panel)this.Parent;
             parentPanel.Children.Remove(this);
+        }
+
+        public void DisableControls()
+        {
+            Healresfrom.IsEnabled = false;
+            Healresto.IsEnabled = false;
+            Healreqmana.IsEnabled = false;
+            HealthRadio.IsEnabled = false;
+            ManaRadio.IsEnabled = false;
+            FlatRadio.IsEnabled = false;
+            ProcRadio.IsEnabled = false;
+            Keysres.IsEnabled = false;
+            slValue.IsEnabled = false;
+            RemoveButton.IsEnabled = false;
+        }
+
+        public void EnableControls()
+        {
+            Healresfrom.IsEnabled = true;
+            Healresto.IsEnabled = true;
+            Healreqmana.IsEnabled = true;
+            HealthRadio.IsEnabled = true;
+            ManaRadio.IsEnabled = true;
+            FlatRadio.IsEnabled = true;
+            ProcRadio.IsEnabled = true;
+            Keysres.IsEnabled = true;
+            slValue.IsEnabled = true;
+            RemoveButton.IsEnabled = true;
+        }
+
+        public bool AreControlsFilledIn()
+        {
+            if (Healresfrom.Text.Length == 0 || Healresto.Text.Length == 0 || Healreqmana.Text.Length == 0 ||
+                Keysres.SelectedValue == null)
+            {
+                return false;
+            }
+            if (HealthRadio.IsChecked == false && ManaRadio.IsChecked == false)
+            {
+                return false;
+            }
+            if (FlatRadio.IsChecked == false && ProcRadio.IsChecked == false)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

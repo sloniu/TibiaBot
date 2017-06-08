@@ -8,7 +8,8 @@
         x:Name="Window"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:controls="clr-namespace:TibiaBot.Controls"
-        Title="MainWindow" SizeToContent="Height" Width="350" MinWidth="350" MinHeight="401">
+        Title="MainWindow" SizeToContent="Height" Width="350" MinWidth="350" MinHeight="401"
+        Closing="MainWindow_OnClosing">
     <StackPanel>
         <StackPanel Margin="3">
             <Button Content="Load Processes" Click="loadProcessButtonBase_OnClick" />
@@ -45,12 +46,32 @@
                         <CheckBox x:Name="spacebutton" Content="Enabled" Checked="SpaceButtonBase_OnClick" Unchecked="StopSpaceButtonBase_OnClick"></CheckBox>
                     </StackPanel>
                     <StackPanel Margin="3">
-                        <TextBlock Text="Logout after seconds (set logout button to f12)"></TextBlock>
+                        <TextBlock Text="Logout (set logout button to selected key)"></TextBlock>
                         <TextBox x:Name="logout" Text="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingLogoutTime}"></TextBox>
+                        <ComboBox x:Name="keys4" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedIndex="{Binding Source={StaticResource Settings}, Path=Default.ManaSittingLogoutKey}"></ComboBox>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="LogoutTimeRadioButton" Content="Time (seconds)" Grid.Column="0"></RadioButton>
+                            <RadioButton x:Name="LogoutSoulsRadioButton" Content="Souls" Grid.Column="1"></RadioButton>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Content="Do nothing" Grid.Column="0"></RadioButton>
+                            <RadioButton x:Name="LogoutShutdownRadioButton" Content="Shut down PC" Grid.Column="1"></RadioButton>
+                            <RadioButton x:Name="LogoutHibernateRadioButton" Content="Hibernate PC" Grid.Column="2"></RadioButton>
+                        </Grid>
                         <CheckBox x:Name="logoutButton" Content="Enabled" Checked="LogoutButton_OnClick" Unchecked="Logoutstopbutton_OnClick"></CheckBox>
                     </StackPanel>
                     <StackPanel Margin="3" Visibility="Collapsed">
-                        <TextBox x:Name="logBox" IsReadOnly="True" Height="100" VerticalScrollBarVisibility="Auto" />
+                        <TextBox x:Name="logBox" IsReadOnly="True" Height="100" VerticalScrollBarVisibility="Auto"/>
                     </StackPanel>
                     <StackPanel Visibility="Visible">
                         <TextBlock x:Name="hpTextblock"></TextBlock>
@@ -64,7 +85,7 @@
                 <DockPanel MaxHeight="500">
                     <StackPanel DockPanel.Dock="Top">
                         <Button Content="Add" Click="AddHealButtonBase_OnClick" DockPanel.Dock="Top"></Button>
-                        <CheckBox Content="Enabled" Checked="HealersToggleButton_OnChecked" Unchecked="HealersToggleButton_OnUnchecked" DockPanel.Dock="Bottom"></CheckBox>
+                        <CheckBox x:Name="HealsEnableCheckBox" Content="Enabled" Checked="HealersToggleButton_OnChecked" Unchecked="HealersToggleButton_OnUnchecked" DockPanel.Dock="Bottom"></CheckBox>
                     </StackPanel>
                     
 
@@ -78,18 +99,18 @@
                 
             </TabItem>
             <TabItem Header="Alarm">
-                     <StackPanel>
+                <StackPanel>
                     <TextBox x:Name="AlertRes" Text="{Binding Source={StaticResource Settings}, Path=Default.AlarmAmount}"></TextBox>
-                        <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
                         <RadioButton x:Name="AlarmFlatRadio"  Content="Flat amount" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsFlat}"></RadioButton>
                         <RadioButton x:Name="AlarmProcRadio"  Content="Percent" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsPercent}"></RadioButton>
-                        </StackPanel>
+                    </StackPanel>
                     <RadioButton x:Name="AlertHealth" Content="Health" GroupName="alert" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsHealth}"/>
                     <RadioButton x:Name="AlertMana" Content="Mana" GroupName="alert" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsMana}"/>
                     <RadioButton x:Name="AlertSouls" Content="Souls" GroupName="alert" IsChecked="{Binding Source={StaticResource Settings}, Path=Default.AlarmIsSouls}"/>
-                        <CheckBox Content="Enabled" Checked="AlertToggleButton_OnChecked" Unchecked="AlertToggleButton_OnUnchecked"></CheckBox>
-                    </StackPanel>
-                
+                    <CheckBox x:Name="AlarmEnabledCheckBox" Content="Enabled" Checked="AlertToggleButton_OnChecked" Unchecked="AlertToggleButton_OnUnchecked"></CheckBox>
+                </StackPanel>
+
             </TabItem>
         </TabControl>
     </StackPanel>

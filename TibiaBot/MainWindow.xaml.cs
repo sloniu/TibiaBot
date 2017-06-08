@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -34,14 +35,15 @@ namespace TibiaBot
     {
         public MainWindow()
         {
+            HealControls = new List<HealControl>();
             InitializeComponent();
             keys1.ItemsSource = _keys;
             keys2.ItemsSource = _keys;
             keys3.ItemsSource = _keys;
+            keys4.ItemsSource = _keys;
             classCombo.ItemsSource = Classes;
             itemCombo.ItemsSource = _items;
             loadProcessButtonBase_OnClick(new object(), new AccessKeyPressedEventArgs());
-            HealControls = new List<HealControl>();
         }
 
 
@@ -51,8 +53,10 @@ namespace TibiaBot
         private bool _ksF5isrunning = true;
         private KeySender _ksF6;
         private KeySender _ksSpace;
-        private KeySender _ksLogout;
+        private KeySender _ksLogoutTime;
+        private KeySender _ksLogoutSouls;
         private Alarm _alarm;
+        private Healer _healer;
         //private List<HealControl> heals = new List<HealControl>();
 
         public List<HealControl> HealControls { get; set; }
@@ -167,15 +171,18 @@ namespace TibiaBot
         {
             if (mana1.Text.Length == 0)
             {
+                f5button.IsChecked = false;
                 return;
             }
 
             keys1.IsEnabled = false;
+            mana1.IsEnabled = false;
 
             logBox.AppendText("\nF5 started.");
             logBox.ScrollToEnd();
             _ksF5 = new KeySender();
             var proc = (TibiaProc)processCombo.SelectedValue;
+            _ksF5isrunning = true;
             while (_ksF5isrunning)
             {
                 if (MemoryReader.mana >= int.Parse(mana1.Text))
@@ -191,10 +198,15 @@ namespace TibiaBot
 
         private void F5stopbutton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (mana1.Text.Length == 0)
+            {
+                return;
+            }
             _ksF5isrunning = false;
             //_ksF5.Stop = true;
 
             keys1.IsEnabled = true;
+            mana1.IsEnabled = true;
             logBox.AppendText("\nF5 stopped.");
             logBox.ScrollToEnd();
         }
@@ -207,11 +219,13 @@ namespace TibiaBot
         {
             if (mana2.Text.Length == 0)
             {
+                f6button.IsChecked = false;
                 return;
             }
 
 
             keys2.IsEnabled = false;
+            mana2.IsEnabled = false;
 
             logBox.AppendText("\nF6 started.");
             logBox.ScrollToEnd();
@@ -223,9 +237,14 @@ namespace TibiaBot
 
         public void F6stopButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
+            if (mana2.Text.Length == 0)
+            {
+                return;
+            }
             _ksF6.Stop = true;
 
             keys2.IsEnabled = true;
+            mana2.IsEnabled = true;
             logBox.AppendText("\nF6 stopped.");
             logBox.ScrollToEnd();
         }
@@ -238,11 +257,13 @@ namespace TibiaBot
         {
             if (spacebox.Text.Length == 0)
             {
+                spacebutton.IsChecked = false;
                 return;
             }
 
 
             keys3.IsEnabled = false;
+            spacebox.IsEnabled = false;
 
             logBox.AppendText("\nSpace started.");
             logBox.ScrollToEnd();
@@ -253,9 +274,15 @@ namespace TibiaBot
 
         private void StopSpaceButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
+            if (spacebox.Text.Length == 0)
+            {
+                return;
+            }
             _ksSpace.Stop = true;
 
             keys3.IsEnabled = true;
+            spacebox.IsEnabled = true;
+
             logBox.AppendText("\nSpace stopped.");
             logBox.ScrollToEnd();
         }
@@ -266,23 +293,70 @@ namespace TibiaBot
         //todo: logout after X time, shutdown pc
         private async void LogoutButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (logout.Text.Length == 0)
+            if (logout.Text.Length == 0 || LogoutSoulsRadioButton.IsChecked == false && LogoutSoulsRadioButton.IsChecked == false)
             {
+                logoutButton.IsChecked = false;
                 return;
             }
 
+            logout.IsEnabled = false;
+
             logBox.AppendText("\nLogout started.");
             logBox.ScrollToEnd();
-            _ksLogout = new KeySender();
-            var keys = new []{ 0x7B };
             var proc = (TibiaProc)processCombo.SelectedValue;
-            await _ksLogout.SendKeyMultiple(proc.Process, int.Parse(logout.Text), 1, 0, keys, logBox);
+            if (LogoutTimeRadioButton.IsChecked == true)
+            {
+                _ksLogoutTime = new KeySender();
+                await _ksLogoutTime.SendKeyMultiple(proc.Process, int.Parse(logout.Text), 1, 0, int.Parse(keys4.SelectedValue.ToString()), logBox);
+
+                if (LogoutShutdownRadioButton.IsChecked == true)
+                {
+                    var psi = new ProcessStartInfo("shutdown", "/s /t 0");
+                    psi.CreateNoWindow = true;
+                    psi.UseShellExecute = false;
+                    Process.Start(psi);
+                }
+
+                if (LogoutHibernateRadioButton.IsChecked == true)
+                {
+                    var psi = new ProcessStartInfo("shutdown", "/h /t 0");
+                    psi.CreateNoWindow = true;
+                    psi.UseShellExecute = false;
+                    Process.Start(psi);
+                }
+            }
+            if (LogoutSoulsRadioButton.IsChecked == true && MemoryReader.souls <= int.Parse(logout.Text))
+            {
+                _ksLogoutSouls = new KeySender();
+                await _ksLogoutSouls.SendKey(proc.Process, int.Parse(keys4.SelectedValue.ToString()));
+
+                if (LogoutShutdownRadioButton.IsChecked == true)
+                {
+                    var psi = new ProcessStartInfo("shutdown", "/s /t 0");
+                    psi.CreateNoWindow = true;
+                    psi.UseShellExecute = false;
+                    Process.Start(psi);
+                }
+
+                if (LogoutHibernateRadioButton.IsChecked == true)
+                {
+                    var psi = new ProcessStartInfo("shutdown", "/h /t 0");
+                    psi.CreateNoWindow = true;
+                    psi.UseShellExecute = false;
+                    Process.Start(psi);
+                }
+            }
+            
         }
 
         private void Logoutstopbutton_OnClick(object sender, RoutedEventArgs e)
         {
-            _ksLogout.Stop = true;
-
+            if (logout.Text.Length == 0)
+            {
+                return;
+            }
+            _ksLogoutTime.Stop = true;
+            logout.IsEnabled = true;
             logBox.AppendText("\nLogout stopped.");
             logBox.ScrollToEnd();
         }
@@ -306,44 +380,80 @@ namespace TibiaBot
         {
             try
             {
-//                foreach (var heal in heals)
-//                {
-//                    heal.Process = ((TibiaProc)processCombo.SelectedItem).Process;
-//
-//
-//                }
-                //Heal1.Process = ((TibiaProc)processCombo.SelectedItem).Process;
+                Window.Title = ((TibiaProc)processCombo.SelectedItem).WindowTitle.Replace("Tibia", "Bot");
+                MemoryReader.Initialize();
+                MemoryReader.OpenProcess(((TibiaProc)processCombo.SelectedItem).Process);
+
+                
+
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
+//                var alert = new Alarm();
+//                alert.IsEnabled = true;
+//                alert.Play();
+//
+//                MessageBoxResult result = MessageBox.Show($"{ex}", "Something happened", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+//                if (result == MessageBoxResult.OK)
+//                {
+//                    alert.Stop();
+//                    alert.IsEnabled = false;
+//                }
+                Console.WriteLine(ex);
                 //throw;
             }
 
             try
             {
-                Window.Title = ((TibiaProc)processCombo.SelectedItem).WindowTitle.Replace("Tibia", "Bot");
-                MemoryReader.Initialize();
-                MemoryReader.OpenProcess(((TibiaProc)processCombo.SelectedItem).Process);
-//                foreach (var heal in heals)
-//                {
-//                    //heal = new HealControl(((TibiaProc)processCombo.SelectedItem).Process);
-//                }
-                //Heal1 = new HealControl(((TibiaProc)processCombo.SelectedItem).Process);
-            }
-            catch (Exception ex)
-            {
-                var alert = new Alarm();
-                alert.IsEnabled = true;
-                alert.Play();
+                var settings = SettingsManager.Instance;
+                settings.Deserialize($"{((TibiaProc)processCombo.SelectedItem).WindowTitle}.xml", ref settings);
+                settings.ApplyCustomSettings();
 
-                MessageBoxResult result = MessageBox.Show($"{ex}", "Something happened", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (result == MessageBoxResult.OK)
+                //var list = new List<HealControl>();
+                HealControls = new List<HealControl>();
+                icHeal.Children.Clear();
+                foreach (var settingsHealerSetting in settings.HealerSettings)
                 {
-                    alert.Stop();
-                    alert.IsEnabled = false;
+                    var heal = new HealControl();
+                    heal.Healresfrom.Text = settingsHealerSetting.From;
+                    heal.Healresto.Text = settingsHealerSetting.To;
+                    heal.Healreqmana.Text = settingsHealerSetting.RequiredMana;
+                    //heal.IsPercent = settingsHealerSetting.IsPercent;
+                    //heal.ResourceType = settingsHealerSetting.Type;
+                    heal.Keysres.SelectedValue = settingsHealerSetting.Key;
+                    heal.slValue.Value = settingsHealerSetting.Priority;
+
+                    if (settingsHealerSetting.IsPercent == true)
+                    {
+                        heal.ProcRadio.IsChecked = true;
+                    }
+                    else if (settingsHealerSetting.IsPercent == false)
+                    {
+                        heal.FlatRadio.IsChecked = true;
+                    }
+
+                    if (settingsHealerSetting.Type == Healer.ResourceType.Health)
+                    {
+                        heal.HealthRadio.IsChecked = true;
+                    }
+                    else if (settingsHealerSetting.Type == Healer.ResourceType.Mana)
+                    {
+                        heal.ManaRadio.IsChecked = true;
+                    }
+
+                    
+
+                    HealControls.Add(heal);
+                    icHeal.Children.Add(heal);
+
+                    
+
+                    
                 }
-                Console.WriteLine(ex);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
                 //throw;
             }
         }
@@ -352,8 +462,8 @@ namespace TibiaBot
         {
             while (true)
             {
-                hpTextblock.Text = $"{MemoryReader.health}/{MemoryReader.maxHealth} Health";
-                mpTextblock.Text = $"{MemoryReader.mana}/{MemoryReader.maxMana} Mana";
+                hpTextblock.Text = $"{MemoryReader.health}/{MemoryReader.maxHealth} Health ({100*MemoryReader.health/MemoryReader.maxHealth})";
+                mpTextblock.Text = $"{MemoryReader.mana}/{MemoryReader.maxMana} Mana  ({100 * MemoryReader.mana / MemoryReader.maxMana})";
                 soulsTextblock.Text = $"{MemoryReader.souls} Souls";
                 await Task.Delay(100);
             }
@@ -362,8 +472,22 @@ namespace TibiaBot
 
         private void AlertToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
+            if (AlertRes.Text.Length == 0 || AlarmFlatRadio.IsChecked == false && AlarmProcRadio.IsChecked == false ||
+                AlertHealth.IsChecked == false && AlertMana.IsChecked == false && AlertSouls.IsChecked == false)
+            {
+                AlarmEnabledCheckBox.IsChecked = false;
+                return;
+            }
             _alarm = new Alarm();
             _alarm.IsEnabled = true;
+
+            AlertRes.IsEnabled = false;
+            AlarmFlatRadio.IsEnabled = false;
+            AlarmProcRadio.IsEnabled = false;
+            AlertHealth.IsEnabled = false;
+            AlertMana.IsEnabled = false;
+            AlertSouls.IsEnabled = false;
+
             bool isPercent = true;
             if (AlarmProcRadio.IsChecked == true)
             {
@@ -390,8 +514,21 @@ namespace TibiaBot
 
         private void AlertToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
         {
+            if (AlertRes.Text.Length == 0 || AlarmFlatRadio.IsChecked == false && AlarmProcRadio.IsChecked == false ||
+                AlertHealth.IsChecked == false && AlertMana.IsChecked == false && AlertSouls.IsChecked == false)
+            {
+                return;
+            }
+
             _alarm.IsEnabled = false;
             _alarm.Stop();
+
+            AlertRes.IsEnabled = true;
+            AlarmFlatRadio.IsEnabled = true;
+            AlarmProcRadio.IsEnabled = true;
+            AlertHealth.IsEnabled = true;
+            AlertMana.IsEnabled = true;
+            AlertSouls.IsEnabled = true;
         }
 
         private void AddHealButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -399,32 +536,72 @@ namespace TibiaBot
             var heal = new HealControl();
             HealControls.Add(heal);
 
-            //heal.Process = ((TibiaProc)processCombo.SelectedItem).Process;
             icHeal.Children.Add(heal);
+
+//            var settings = SettingsManager.Instance;
+//            var hs = new HealerSetting(heal);
+//
+//            settings.HealerSettings.Add(hs);
         }
 
         private void HealersToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            //var healers = HealControls.Select(healControl => healControl.Healer).ToList();
-            foreach (var healControl in HealControls)
+            if (HealControls.Count == 0)
             {
-                //healControl.Healers = healers;
-                healControl.EnableHeals();
-
+                HealsEnableCheckBox.IsChecked = false;
+                return;
             }
 
-            var healer = new Healer();
-            healer.Process = ((TibiaProc) processCombo.SelectedItem).Process;
-            healer.HealControls = HealControls;
-            healer.HealPrio();
+            if (HealControls.Any(healControl => !healControl.AreControlsFilledIn()))
+            {
+                HealsEnableCheckBox.IsChecked = false;
+                return;
+            }
+
+            foreach (var healControl in HealControls)
+            {
+                healControl.DisableControls();
+                healControl.EnableHeals();
+            }
+
+            _healer = new Healer();
+            _healer.Process = ((TibiaProc) processCombo.SelectedItem).Process;
+            _healer.HealControls = HealControls;
+            _healer.HealPrio();
         }
 
         private void HealersToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
         {
+            if (HealControls.Count == 0)
+            {
+                return;
+            }
+            if (HealControls.Any(healControl => !healControl.AreControlsFilledIn()))
+            {
+                return;
+            }
+            _healer.IsEnabled = false;
             foreach (var healControl in HealControls)
             {
-                healControl.DisableHeals();
+                healControl.EnableControls();
             }
+        }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            var settings = SettingsManager.Instance;
+            settings.LoadCurrentSettings();
+
+            foreach (var healControl in HealControls)
+            {
+                var hs = new HealerSetting(healControl);
+
+                settings.HealerSettings.Add(hs);
+            }
+            
+
+
+            settings.Serialize($"{((TibiaProc)processCombo.SelectedItem).WindowTitle}.xml",settings);
         }
     }
 }
